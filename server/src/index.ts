@@ -1,5 +1,8 @@
+import "dotenv/config";
 import express from "express";
 import cors from "cors";
+import { toNodeHandler } from "better-auth/node";
+import { auth } from "./lib/auth";
 import router from "./routes/index";
 
 const app = express();
@@ -11,6 +14,10 @@ app.use(
     credentials: true,
   })
 );
+
+// Better Auth handler must come before express.json()
+app.all("/api/auth/{*any}", toNodeHandler(auth));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

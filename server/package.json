@@ -7,10 +7,14 @@
     "start": "bun src/index.ts"
   },
   "dependencies": {
+    "@prisma/adapter-pg": "^7.8.0",
     "@prisma/client": "^7.8.0",
+    "@types/pg": "^8.20.0",
+    "better-auth": "^1.6.11",
     "cors": "^2.8.5",
     "dotenv": "^17.4.2",
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "pg": "^8.21.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
