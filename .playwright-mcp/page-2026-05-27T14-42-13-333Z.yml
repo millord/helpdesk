@@ -1,0 +1,10 @@
+- generic [ref=e14]:
+  - navigation [ref=e15]:
+    - generic [ref=e16]: Helpdesk
+    - generic [ref=e17]:
+      - generic [ref=e18]: Admin
+      - button "Sign out" [ref=e19]
+  - main [ref=e20]:
+    - generic [ref=e21]:
+      - heading "Dashboard" [level=1] [ref=e22]
+      - paragraph [ref=e23]: "Server status: ok"
