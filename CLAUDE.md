@@ -8,9 +8,9 @@ An AI-powered ticket management system for handling support emails. Tickets are 
 
 | Layer | Technology |
 |---|---|
-| Frontend | React 19 + TypeScript, Tailwind CSS v4, React Router v7 |
+| Frontend | React 19 + TypeScript, Tailwind CSS v4, React Router v7, shadcn/ui |
 | Backend | Node.js + Express 5 + TypeScript, running on Bun |
-| Auth | Database sessions |
+| Auth | Better Auth (database sessions) |
 | Database | PostgreSQL + Prisma |
 | AI | Claude API |
 | Email | SendGrid or Mailgun |
@@ -49,6 +49,20 @@ Vite proxies `/api/*` → `http://localhost:3000` in development.
 - New route files go in `server/src/routes/` and are mounted in `server/src/routes/index.ts`
 - Use `bun --watch` for hot-reload on the server (already configured in `package.json`)
 - Tailwind v4: no config file — styles are imported via `@import "tailwindcss"` in `index.css`
+- shadcn/ui: installed in `client/` with new-york style and default theme; add components with `npx shadcn@latest add <name>` from the `client/` directory
+- shadcn imports use the `@` alias (`@/components/ui/...`), which maps to `client/src/`; alias is configured in `client/tsconfig.json` and `client/vite.config.ts`
+- Use shadcn semantic color tokens (`text-destructive`, `bg-background`, etc.) instead of hardcoded Tailwind colors
+
+## Authentication
+
+Better Auth handles all auth. Key details:
+
+- **Server config:** `server/src/lib/auth.ts` — Prisma adapter, email/password only, **sign-up is disabled** (users are seeded manually)
+- **User roles:** `role` field added to the user model (`"agent"` by default); set to `"admin"` via seed script
+- **Auth routes:** mounted at `/api/auth/*` via `toNodeHandler(auth)` in `server/src/index.ts`
+- **Client:** `client/src/lib/auth-client.ts` exports `signIn`, `signOut`, `useSession` — import from there, not directly from `better-auth`
+- **Middleware:** `requireAuth` and `requireAdmin` live in `server/src/middleware/`; session enforcement is Phase 2 (stubs exist)
+- **Trusted origin:** `CLIENT_URL` env var (defaults to `http://localhost:5173`)
 
 ## Documentation
 
