@@ -63,6 +63,17 @@ Better Auth handles all auth. Key details:
 - **Client:** `client/src/lib/auth-client.ts` exports `signIn`, `signOut`, `useSession` — import from there, not directly from `better-auth`
 - **Middleware:** `requireAuth` and `requireAdmin` live in `server/src/middleware/`; session enforcement is Phase 2 (stubs exist)
 - **Trusted origin:** `CLIENT_URL` env var (defaults to `http://localhost:5173`)
+- **Route guards:** `ProtectedRoute` (any authenticated user) and `AdminRoute` (admin role only) in `client/src/components/`; wrap routes in `App.tsx`
+- **Role-conditional UI:** check `(session?.user as { role?: string })?.role === "admin"` for admin-only elements (e.g. nav links)
+
+## Seeded Users
+
+| Email | Password | Role |
+|---|---|---|
+| *(set via `SEED_ADMIN_EMAIL` / `SEED_ADMIN_PASSWORD` env vars)* | — | admin |
+| agent@example.com | admin123 | agent |
+
+To create additional users, use `auth.$context` internal adapter (see `server/prisma/seed.ts` for the pattern).
 
 ## Documentation
 

@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import ProtectedRoute from "./components/ProtectedRoute";
+import AdminRoute from "./components/AdminRoute";
 import Layout from "./components/Layout";
+import UsersPage from "./pages/UsersPage";
 
 export default function App() {
   return (
@@ -11,6 +13,11 @@ export default function App() {
       <Route element={<ProtectedRoute />}>
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
+        </Route>
+      </Route>
+      <Route element={<AdminRoute />}>
+        <Route element={<Layout />}>
+          <Route path="/users" element={<UsersPage />} />
         </Route>
       </Route>
     </Routes>
