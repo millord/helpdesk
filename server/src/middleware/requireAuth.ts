@@ -1,6 +1,16 @@
 import type { Request, Response, NextFunction } from "express";
+import { auth } from "../lib/auth";
+import { fromNodeHeaders } from "better-auth/node";
 
-export function requireAuth(_req: Request, res: Response, next: NextFunction) {
-  // TODO: Phase 2 — check session and attach user to req
+export async function requireAuth(req: Request, res: Response, next: NextFunction) {
+  const session = await auth.api.getSession({
+    headers: fromNodeHeaders(req.headers),
+  });
+  if (!session) {
+    res.status(401).json({ error: "Unauthorized" });
+    return;
+  }
+  (req as any).user = session.user;
+  (req as any).session = session.session;
   next();
 }

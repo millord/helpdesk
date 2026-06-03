@@ -8,7 +8,7 @@ export const auth = betterAuth({
   trustedOrigins: [process.env.CLIENT_URL || "http://localhost:5173"],
   user: {
     additionalFields: {
-      role: { type: "string", required: true, defaultValue: "agent" },
+      role: { type: "string", required: true, defaultValue: "agent", input: false },
     },
   },
 });
