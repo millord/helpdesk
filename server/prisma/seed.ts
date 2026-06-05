@@ -1,13 +1,15 @@
-import "dotenv/config";
-import { auth } from "../src/lib/auth";
-import { Role } from "../src/generated/prisma/enums";
+import 'dotenv/config';
+import { auth } from '../src/lib/auth';
+import { Role } from '../src/generated/prisma/enums';
 
 async function main() {
   const email = process.env.SEED_ADMIN_EMAIL;
   const password = process.env.SEED_ADMIN_PASSWORD;
 
   if (!email || !password) {
-    console.error("SEED_ADMIN_EMAIL and SEED_ADMIN_PASSWORD must be set in .env");
+    console.error(
+      'SEED_ADMIN_EMAIL and SEED_ADMIN_PASSWORD must be set in .env',
+    );
     process.exit(1);
   }
 
@@ -21,7 +23,7 @@ async function main() {
 
   const user = await ctx.internalAdapter.createUser({
     email,
-    name: "Admin",
+    name: 'Admin',
     emailVerified: true,
     role: Role.admin,
     createdAt: new Date(),
@@ -31,7 +33,7 @@ async function main() {
   const hashed = await ctx.password.hash(password);
   await ctx.internalAdapter.linkAccount({
     userId: user.id,
-    providerId: "credential",
+    providerId: 'credential',
     accountId: email,
     password: hashed,
     createdAt: new Date(),

@@ -1,11 +1,11 @@
-import { Router } from "express";
-import { requireAuth } from "../middleware/requireAuth";
-import { requireAdmin } from "../middleware/requireAdmin";
+import { Router } from 'express';
+import { requireAuth } from '../middleware/requireAuth';
+import { requireAdmin } from '../middleware/requireAdmin';
 
 const router = Router();
 
-router.get("/health", (_req, res) => {
-  res.json({ status: "ok" });
+router.get('/health', (_req, res) => {
+  res.json({ status: 'ok' });
 });
 
 // Phase 3: router.use("/users", requireAuth, requireAdmin, usersRouter);

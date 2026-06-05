@@ -15,6 +15,7 @@ An AI-powered ticket management system for handling support emails. Tickets are 
 | AI | Claude API |
 | Email | SendGrid or Mailgun |
 | Deployment | Docker + cloud provider |
+| Testing | Playwright (e2e, chromium) |
 
 Full details in `tech-stack.md`.
 
@@ -22,14 +23,17 @@ Full details in `tech-stack.md`.
 
 ```
 /
-├── client/         # React app (Vite, port 5173)
+├── client/              # React app (Vite, port 5173)
 │   └── src/
-├── server/         # Express API (Bun, port 3000)
+├── server/              # Express API (Bun, port 3000)
 │   └── src/
 │       ├── routes/
 │       └── middleware/
-├── package.json    # Bun workspace root
-└── tsconfig.json   # Shared TS config
+├── e2e/                 # Playwright end-to-end tests
+│   └── global-setup.ts  # Creates helpdesk_test DB, runs migrations + seed
+├── playwright.config.ts # Playwright config (chromium, baseURL: 5173)
+├── package.json         # Bun workspace root
+└── tsconfig.json        # Shared TS config
 ```
 
 ## Running the Project
@@ -52,6 +56,7 @@ Vite proxies `/api/*` → `http://localhost:3000` in development.
 - shadcn/ui: installed in `client/` with new-york style and default theme; add components with `npx shadcn@latest add <name>` from the `client/` directory
 - shadcn imports use the `@` alias (`@/components/ui/...`), which maps to `client/src/`; alias is configured in `client/tsconfig.json` and `client/vite.config.ts`
 - Use shadcn semantic color tokens (`text-destructive`, `bg-background`, etc.) instead of hardcoded Tailwind colors
+- Prettier config (`.prettierrc`): `semi: true`, `singleQuote: true`, `tabWidth: 2`, `trailingComma: "all"`
 
 ## Authentication
 
@@ -61,7 +66,7 @@ Better Auth handles all auth. Key details:
 - **User roles:** `role` field added to the user model (`"agent"` by default); set to `"admin"` via seed script
 - **Auth routes:** mounted at `/api/auth/*` via `toNodeHandler(auth)` in `server/src/index.ts`
 - **Client:** `client/src/lib/auth-client.ts` exports `signIn`, `signOut`, `useSession` — import from there, not directly from `better-auth`
-- **Middleware:** `requireAuth` and `requireAdmin` live in `server/src/middleware/`; session enforcement is Phase 2 (stubs exist)
+- **Middleware:** `requireAuth` and `requireAdmin` live in `server/src/middleware/`; both are fully implemented (Phase 2 complete)
 - **Trusted origin:** `CLIENT_URL` env var (defaults to `http://localhost:5173`)
 - **Route guards:** `ProtectedRoute` (any authenticated user) and `AdminRoute` (admin role only) in `client/src/components/`; wrap routes in `App.tsx`
 - **Role-conditional UI:** check `(session?.user as { role?: string })?.role === "admin"` for admin-only elements (e.g. nav links)
@@ -74,6 +79,22 @@ Better Auth handles all auth. Key details:
 | agent@example.com | admin123 | agent |
 
 To create additional users, use `auth.$context` internal adapter (see `server/prisma/seed.ts` for the pattern).
+
+## E2E Testing
+
+Playwright is configured for end-to-end tests against the full running stack.
+
+- **Config:** `playwright.config.ts` — chromium only, `baseURL: http://localhost:5173`
+- **Tests:** `e2e/` directory
+- **Global setup:** `e2e/global-setup.ts` — auto-creates `helpdesk_test` DB, runs `prisma migrate deploy`, and seeds it before tests run
+- **Global teardown:** `e2e/global-teardown.ts` — truncates all tables after tests finish (runs automatically, whether tests pass or fail)
+- **Test DB URL:** `postgresql://postgres:admin123@localhost:5432/helpdesk_test`
+- The `webServer` config in `playwright.config.ts` starts both client and server automatically when running tests
+
+```bash
+bunx playwright test        # run all e2e tests
+bunx playwright test --ui   # interactive UI mode
+```
 
 ## Documentation
 
