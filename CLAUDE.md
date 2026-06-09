@@ -80,22 +80,6 @@ Better Auth handles all auth. Key details:
 
 To create additional users, use `auth.$context` internal adapter (see `server/prisma/seed.ts` for the pattern).
 
-## E2E Testing
-
-Playwright is configured for end-to-end tests against the full running stack.
-
-- **Config:** `playwright.config.ts` — chromium only, `baseURL: http://localhost:5173`
-- **Tests:** `e2e/` directory
-- **Global setup:** `e2e/global-setup.ts` — auto-creates `helpdesk_test` DB, runs `prisma migrate deploy`, and seeds it before tests run
-- **Global teardown:** `e2e/global-teardown.ts` — truncates all tables after tests finish (runs automatically, whether tests pass or fail)
-- **Test DB URL:** `postgresql://postgres:admin123@localhost:5432/helpdesk_test`
-- The `webServer` config in `playwright.config.ts` starts both client and server automatically when running tests
-
-```bash
-bunx playwright test        # run all e2e tests
-bunx playwright test --ui   # interactive UI mode
-```
-
 ## Documentation
 
 Use **Context7 MCP** to fetch current documentation for any library before writing code.
