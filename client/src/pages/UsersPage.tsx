@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
 
 type User = {
   id: string;
@@ -8,23 +9,18 @@ type User = {
   createdAt: string;
 };
 
+async function fetchUsers(): Promise<User[]> {
+  const { data } = await axios.get<User[]>('/api/users');
+  return data;
+}
+
 export default function UsersPage() {
-  const [users, setUsers] = useState<User[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { data: users = [], isPending, isError } = useQuery({
+    queryKey: ['users'],
+    queryFn: fetchUsers,
+  });
 
-  useEffect(() => {
-    fetch('/api/users')
-      .then((res) => {
-        if (!res.ok) throw new Error('Failed to load users');
-        return res.json() as Promise<User[]>;
-      })
-      .then(setUsers)
-      .catch((err: Error) => setError(err.message))
-      .finally(() => setLoading(false));
-  }, []);
-
-  if (loading) {
+  if (isPending) {
     return (
       <div className="flex items-center justify-center py-20">
         <div className="w-6 h-6 border-2 border-gray-300 border-t-gray-900 rounded-full animate-spin" />
@@ -32,10 +28,8 @@ export default function UsersPage() {
     );
   }
 
-  if (error) {
-    return (
-      <p className="text-destructive text-sm py-6">{error}</p>
-    );
+  if (isError) {
+    return <p className="text-destructive text-sm py-6">Failed to load users</p>;
   }
 
   return (

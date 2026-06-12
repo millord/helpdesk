@@ -8,7 +8,7 @@ An AI-powered ticket management system for handling support emails. Tickets are 
 
 | Layer | Technology |
 |---|---|
-| Frontend | React 19 + TypeScript, Tailwind CSS v4, React Router v7, shadcn/ui |
+| Frontend | React 19 + TypeScript, Tailwind CSS v4, React Router v7, shadcn/ui, TanStack Query v5, Axios |
 | Backend | Node.js + Express 5 + TypeScript, running on Bun |
 | Auth | Better Auth (database sessions) |
 | Database | PostgreSQL + Prisma |
@@ -57,6 +57,7 @@ Vite proxies `/api/*` → `http://localhost:3000` in development.
 - shadcn imports use the `@` alias (`@/components/ui/...`), which maps to `client/src/`; alias is configured in `client/tsconfig.json` and `client/vite.config.ts`
 - Use shadcn semantic color tokens (`text-destructive`, `bg-background`, etc.) instead of hardcoded Tailwind colors
 - Prettier config (`.prettierrc`): `semi: true`, `singleQuote: true`, `tabWidth: 2`, `trailingComma: "all"`
+- **Data fetching:** use **Axios** for HTTP requests and **TanStack Query** (`useQuery`) for all client-side data fetching — no raw `fetch` or `useEffect`+`useState` patterns for API calls; `QueryClientProvider` is set up in `client/src/main.tsx`
 
 ## Authentication
 
