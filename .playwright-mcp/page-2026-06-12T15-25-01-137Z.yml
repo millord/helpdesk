@@ -1,0 +1,13 @@
+- generic [ref=e16]:
+  - navigation [ref=e17]:
+    - generic [ref=e18]:
+      - generic [ref=e19]: Helpdesk
+      - link "Users" [ref=e20] [cursor=pointer]:
+        - /url: /users
+    - generic [ref=e21]:
+      - generic [ref=e22]: Admin
+      - button "Sign out" [ref=e23]
+  - main [ref=e24]:
+    - generic [ref=e25]:
+      - heading "Dashboard" [level=1] [ref=e26]
+      - paragraph [ref=e27]: "Server status: ok"

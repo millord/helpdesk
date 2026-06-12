@@ -1,0 +1,38 @@
+- generic [ref=e28]:
+  - navigation [ref=e29]:
+    - generic [ref=e30]:
+      - generic [ref=e31]: Helpdesk
+      - link "Users" [ref=e32] [cursor=pointer]:
+        - /url: /users
+    - generic [ref=e33]:
+      - generic [ref=e34]: Admin
+      - button "Sign out" [ref=e35]
+  - main [ref=e36]:
+    - generic [ref=e37]:
+      - heading "Users" [level=1] [ref=e38]
+      - table [ref=e40]:
+        - rowgroup [ref=e41]:
+          - row "Name Email Role Joined" [ref=e42]:
+            - columnheader "Name" [ref=e43]
+            - columnheader "Email" [ref=e44]
+            - columnheader "Role" [ref=e45]
+            - columnheader "Joined" [ref=e46]
+        - rowgroup [ref=e47]:
+          - row "Agent agent@example.com agent 6/2/2026" [ref=e48]:
+            - cell "Agent" [ref=e49]
+            - cell "agent@example.com" [ref=e50]
+            - cell "agent" [ref=e51]:
+              - generic [ref=e52]: agent
+            - cell "6/2/2026" [ref=e53]
+          - row "Admin admin@example.com admin 5/26/2026" [ref=e54]:
+            - cell "Admin" [ref=e55]
+            - cell "admin@example.com" [ref=e56]
+            - cell "admin" [ref=e57]:
+              - generic [ref=e58]: admin
+            - cell "5/26/2026" [ref=e59]
+          - row "Test User test@example.com agent 5/25/2026" [ref=e60]:
+            - cell "Test User" [ref=e61]
+            - cell "test@example.com" [ref=e62]
+            - cell "agent" [ref=e63]:
+              - generic [ref=e64]: agent
+            - cell "5/25/2026" [ref=e65]

@@ -1,0 +1,10 @@
+- generic [ref=e67]:
+  - generic [ref=e69]: Sign in
+  - generic [ref=e71]:
+    - generic [ref=e72]:
+      - generic [ref=e73]: Email
+      - textbox "Email" [ref=e74]
+    - generic [ref=e75]:
+      - generic [ref=e76]: Password
+      - textbox "Password" [ref=e77]
+    - button "Sign in" [ref=e78]
